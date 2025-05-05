@@ -19,7 +19,9 @@ I've already begun exploring this topic and have a bit of background from my ear
 
 These gave me a head start in understanding **generative** and **agentic** systems, and I’ll be building further on that through this repo.
 
----
+This is what i learned today and made a presentation type pdf document
+---[What is Agentic AI.pdf](https://github.com/user-attachments/files/20041417/What.is.Agentic.AI.pdf)
+
 
 ## 💬 Let's Connect
 
