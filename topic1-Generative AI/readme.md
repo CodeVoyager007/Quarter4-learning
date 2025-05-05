@@ -1,16 +1,31 @@
-Q4_Learning
-This folder contains my research notes on AI topics for the Q4 learning task. The first topic is "What is Generative AI?", for which we’ve been given 2 days to research using any resources we prefer (Google, YouTube, etc.).
-
-I've already started exploring this topic and have some background through my earlier blogs:
-
-Agentic AI vs Traditional AI — This post explains the difference between traditional task-based AI and agentic AI, which involves more autonomy and decision-making. visit here: https://mughalsyntax.hashnode.dev/agentic-ai-vs-traditional-ai
-
-Exploring Agentic AI: Building Intelligent Agents — Here, I dive into how intelligent agents work, how they can plan and act, and why agentic models matter in the future of AI. visit here : https://mughalsyntax.hashnode.dev/exploring-agentic-ai-building-intelligent-agents
-
-These gave me a head start in understanding generative and agentic systems, and I’ll be building further on that here.
-Feel free to reach me out and suggest more to help me learn
 
 
-Narrated by✒️ : Ayesha Mughal
-Student at GIAIC Monday 2-5 Slot
-Contact me : ayeshamughal2162@gamil.com
+# 📘 Q4\_Learning
+
+This folder contains my research notes on AI topics for the **Q4 learning task**.
+The first topic is **"What is Generative AI?"**, for which we’ve been given **2 days** to research using any preferred resources (Google, YouTube, blogs, etc.).
+
+---
+
+## 🚀 Getting Started
+
+I've already begun exploring this topic and have a bit of background from my earlier blog posts:
+
+* 🔄 **[Agentic AI vs Traditional AI](https://mughalsyntax.hashnode.dev/agentic-ai-vs-traditional-ai)**
+  This post explains the difference between traditional task-based AI and agentic AI, which involves more autonomy and decision-making.
+
+* 🤖 **[Exploring Agentic AI: Building Intelligent Agents](https://mughalsyntax.hashnode.dev/exploring-agentic-ai-building-intelligent-agents)**
+  Here, I dive into how intelligent agents work, how they can plan and act, and why agentic models matter in the future of AI.
+
+These gave me a head start in understanding **generative** and **agentic** systems, and I’ll be building further on that through this repo.
+
+---
+
+## 💬 Let's Connect
+
+Feel free to reach out if you have suggestions, learning resources, or want to collaborate!
+
+**📧 Email**: [ayeshamughal2162@gmail.com](mailto:ayeshamughal2162@gmail.com) 
+**🧑‍🎓 Narrated by**: *Ayesha Mughal* 
+**🏫 GIAIC Slot**: Monday | 2:00 PM – 5:00 PM
+
