@@ -30,9 +30,9 @@ app = FastAPI(
 class TaskStatus(str, Enum):
     TODO = "todo"
     IN_PROGRESS = "in_progress"
-    UNDER_REVIEW = "under_review"  # Added new status
+    UNDER_REVIEW = "under_review"  
     COMPLETED = "completed"
-    ARCHIVED = "archived"  # Added new status
+    ARCHIVED = "archived"  
 
 class TaskPriority(str, Enum):
     LOW = "low"
