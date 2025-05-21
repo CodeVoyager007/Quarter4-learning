@@ -1,60 +1,65 @@
-## 🧠 Task 07 — Agentic AI (OpenAI Agents SDK)
+# 🧠 Task 07 — Agentic AI (OpenAI Agents SDK)
 
-## 🔹 **1. Why is the Agent class a `dataclass`?**
+This task explores the architecture and internal logic of OpenAI’s `Agents SDK`.  
+We’ll look at how it uses Python features like `@dataclass`, `classmethods`, and `generics` to create smart and modular agents.
 
-The `Agent` class is marked as a **dataclass** to simplify the code structure.
-Dataclasses automatically generate methods like `__init__` and `__repr__`, which makes it easier to handle and manage agent-related information such as tools, instructions, and name.
+## 🔹 1. Why is the `Agent` class a `dataclass`?
 
-- ✅ This helps keep the code clean and organized while storing all agent configuration in one place.
+The `Agent` class is marked as a **dataclass** to simplify and streamline the code structure.  
+Dataclasses automatically generate boilerplate methods like `__init__`, `__repr__`, etc., making it easier to handle agent-related properties such as tools, instructions, and name.
 
----
+✅ *This helps keep the code clean, readable, and centralized for all agent configurations.*
 
-## 🔹 **2a. Why are instructions stored in the Agent class? Why can they also be callable?**
+## 🔹 2a. Why are instructions stored in the `Agent` class? Why can they also be callable?
 
-The **system instructions** define how the agent should behave. These are stored in the `Agent` class as a static value or a **callable function**.
+The **system instructions** define how the agent should behave. These can be stored as:
 
-* If stored as a **string**, the instructions are fixed.
-* If set as a **callable**, they can be **dynamically generated** based on runtime conditions.
+- A **string** → for static, fixed instructions  
+- A **callable** → to dynamically generate instructions at runtime (e.g., based on time or context)
 
-- ✅ This makes the agent flexible and more context-aware during execution.
+✅ *This makes the agent more flexible and adaptive to varying environments.*
 
----
+## 🔹 2b. Why is the user prompt passed in the `run()` method? Why is it a `classmethod`?
 
-## 🔹 **2b. Why is the user prompt passed in the `run()` method? Why is it a `classmethod`?**
+The **user prompt** changes with every interaction — that’s why it is passed dynamically to the `run()` method.
 
-The **user prompt** changes every time, so it is passed as a parameter to the `run()` method of the `Runner` class.
+- `run()` is a **classmethod**, meaning it can be invoked without creating an instance of `Runner`
+- It’s designed to be **stateless, reusable, and clean**
 
-* `run()` is a **classmethod**, which means it can be used **without creating an instance** of the class.
-* This allows the agent to quickly process prompts and return results.
+✅ *Perfect for quickly processing user input with the existing agent configuration.*
 
-- ✅ It’s a clean and efficient way to separate agent configuration from user interaction.
+## 🔹 3. What is the purpose of the `Runner` class?
 
----
+The `Runner` class is responsible for managing the **execution lifecycle** of the agent.
 
-## 🔹 **3. What is the purpose of the `Runner` class?**
+- It accepts the `Agent` and user input
+- Connects tools, context, and logic to generate a response
 
-The `Runner` class handles the **execution process** of the agent.
-It takes the agent and user prompt and manages how the response is generated.
+✅ *Think of it as the “engine” that powers the brain of your agent.*
 
-- ✅ Think of it as the controller that connects the agent’s brain with the user’s question.
+## 🔹 4. What are Generics in Python? Why use `TContext`?
 
----
+**Generics** allow developers to write flexible, reusable, and type-safe code.
 
-## 🔹 **4. What are Generics in Python? Why use `TContext`?**
+- `TContext` is a **type variable** used to represent any form of context the agent might need
+- It allows agents to work with different data types (e.g., `dict`, custom classes)
 
-**Generics** allow us to write flexible and reusable code with type safety.
+✅ *This promotes code reusability and structure while supporting diverse agent behaviors.*
 
-* `TContext` is a **type variable** used to represent any context the agent might need.
-* Using generics allows the agent to work with **different types of context** (e.g., dictionaries, custom classes).
+## ✨ Summary
 
-- ✅ This adds flexibility while still keeping the code reliable and structured.
+This task highlights the **modular, clean, and intelligent design** of OpenAI’s Agents SDK — using powerful Python features like:
 
+- `@dataclass` for simplicity  
+- `classmethod` for efficient method calls  
+- `Generics` for type flexibility  
 
+Together, they form the foundation of creating smart, reusable, and scalable AI agents 🤖💡
 
-💡 **Summary:**
-This task helps us understand how the OpenAI Agents SDK is designed to be modular, clean, and powerful by using Python features like `dataclasses`, `classmethods`, and generics.
+## 📚 Blog
 
-### 📚 Blog  
-Check out my detailed write-up on this topic on Medium:
+Want to dive deeper? Check out my detailed breakdown on Medium!  
+&nbsp;  
 [![Read on Medium](https://img.shields.io/badge/Read%20on-Medium-000?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@ayeshamughal21/understanding-agent-architecture-in-openais-agents-sdk-222fea3e1178)
 
+> _“Written with logic, love, and late-night chai ☕ by Ayesha Mughal”_
