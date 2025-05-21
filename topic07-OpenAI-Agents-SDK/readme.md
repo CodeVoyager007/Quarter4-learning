@@ -54,4 +54,7 @@ It takes the agent and user prompt and manages how the response is generated.
 💡 **Summary:**
 This task helps us understand how the OpenAI Agents SDK is designed to be modular, clean, and powerful by using Python features like `dataclasses`, `classmethods`, and generics.
 
+### 📚 Blog  
+Check out my detailed write-up on this topic on Medium:
+[![Read on Medium](https://img.shields.io/badge/Read%20on-Medium-000?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@ayeshamughal21/understanding-agent-architecture-in-openais-agents-sdk-222fea3e1178)
 
