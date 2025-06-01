@@ -1,0 +1,15 @@
+[project]
+name = "topic09-tool-calling"
+version = "0.1.0"
+description = "SyntaxCrafter: An AI-powered blog generation tool"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "chainlit",
+    "rich>=13.7.0",
+    "markdown>=3.5.2",
+    "pydantic>=2.6.1",
+    "typing-extensions>=4.13.2",
+    "httpx>=0.24.1",
+    "streamlit>=1.32.0",
+]
