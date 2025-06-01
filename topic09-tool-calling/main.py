@@ -290,8 +290,8 @@ if topic:
 # Footer
 st.markdown("""
 <footer>
-    <p>Crafted with 💚 by SyntaxCrafter Team</p>
-    <a href="https://github.com/yourusername/syntaxcrafter" target="_blank">
+    <p>Crafted with 💚 by Ayesha Mughal</p>
+    <a href="https://github.com/CodeVoyager007" target="_blank">
         View on GitHub
     </a>
 </footer>
