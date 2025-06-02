@@ -151,14 +151,8 @@ streamlit run app.py
    - Production-ready code
    - User-focused design
 
-## 🤝 Contributing
+## 📚 Related Blog Posts
 
-Feel free to:
-- Open issues
-- Submit Pull Requests
-- Suggest new features
-- Improve documentation
+- [Tool Calling in Agentic AI: Turning Language into Action](https://mughalsyntax.hashnode.dev/tool-calling-in-agentic-ai-turning-language-into-action)
 
-## 📝 License
 
-MIT License - feel free to use this project for learning and inspiration!
