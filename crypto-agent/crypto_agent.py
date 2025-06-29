@@ -13,15 +13,19 @@ class CryptoAgent:
     """AI-powered cryptocurrency agent using OpenAI function tools"""
     
     def __init__(self):
-        # Try to get API key from Streamlit secrets first (for cloud deployment)
-        api_key = st.secrets.get("OPENROUTER_API_KEY")
+        api_key = None
         
-        # If not found in secrets, try environment variable (for local development)
-        if not api_key:
-            api_key = os.getenv("OPENROUTER_API_KEY")
-        
-        if not api_key:
-            raise ValueError("OpenRouter API key not found in secrets or environment variables")
+        try:
+            if hasattr(st, 'secrets') and st.secrets.get("OPENROUTER_API_KEY"):
+                api_key = st.secrets["OPENROUTER_API_KEY"]
+            elif os.getenv("OPENROUTER_API_KEY"):
+                api_key = os.getenv("OPENROUTER_API_KEY")
+            
+            if not api_key:
+                raise ValueError("OpenRouter API key not found")
+                
+        except Exception as e:
+            raise Exception(f"Failed to get API key: {str(e)}")
         
         self.client = OpenAI(
             base_url="https://openrouter.ai/api/v1",

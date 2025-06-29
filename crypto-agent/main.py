@@ -124,36 +124,24 @@ if 'messages' not in st.session_state:
 
 if 'agent' not in st.session_state:
     try:
-        # Try to get API key from Streamlit secrets first (for cloud deployment)
-        api_key = st.secrets.get("OPENROUTER_API_KEY")
+        load_dotenv()
         
-        # If not found in secrets, try .env file (for local development)
-        if not api_key:
-            load_dotenv()
+        api_key = None
+        
+        if st.secrets.get("OPENROUTER_API_KEY"):
+            api_key = st.secrets["OPENROUTER_API_KEY"]
+        elif os.getenv("OPENROUTER_API_KEY"):
             api_key = os.getenv("OPENROUTER_API_KEY")
         
-        if not api_key:
-            st.error("❌ OpenRouter API key not found!")
-            st.info("💡 For local development, create a `.env` file:")
-            st.code("OPENROUTER_API_KEY=your_actual_openrouter_api_key_here")
-            st.info("💡 For Streamlit Cloud, add to secrets:")
-            st.code("""
-# In Streamlit Cloud Settings > Secrets, add:
-OPENROUTER_API_KEY = "your_actual_openrouter_api_key_here"
-            """)
-            st.info("🔗 Get your API key from: https://openrouter.ai/")
-            st.stop()
-        elif api_key == "your_openrouter_api_key_here" or len(api_key) < 10:
-            st.error("❌ Invalid OpenRouter API key!")
-            st.info("💡 Please check your API key")
+        if not api_key or api_key == "your_openrouter_api_key_here":
+            st.error("❌ OpenRouter API key not configured!")
+            st.info("💡 Please add your OpenRouter API key to Streamlit secrets or .env file")
+            st.code("OPENROUTER_API_KEY=your_actual_api_key_here")
             st.stop()
         
         st.session_state.agent = CryptoAgent()
-        st.success("✅ Crypto Agent initialized successfully!")
-        
     except Exception as e:
         st.error(f"❌ Error initializing Crypto Agent: {str(e)}")
-        st.info("💡 Please check your API key and try again")
         st.stop()
 
 # Header

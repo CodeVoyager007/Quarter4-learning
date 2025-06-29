@@ -7,10 +7,10 @@ A sophisticated AI-powered cryptocurrency chatbot with a dark, professional them
 - **🤖 AI Chatbot**: Intelligent cryptocurrency assistant powered by OpenAI GPT-4o-mini
 - **📊 Real-time Data**: Live cryptocurrency data from CoinLore API
 - **🎯 Function Tools**: OpenAI function tools demonstrating parameter handling
-- **📈 Market Overview**: Interactive charts and market statistics with dark theme
+- **📈 Market Overview**: Interactive charts and market statistics
 - **💬 Chat Interface**: Beautiful Streamlit UI with chat functionality
-- **🎨 Dark Professional Theme**: Custom color palette with modern typography
-- **📱 Responsive Design**: Mobile-friendly interface
+- **🌙 Dark Professional Theme**: Custom dark theme with royal purple and crimson accents
+- **📱 Responsive Design**: Modern, mobile-friendly interface
 
 ## 🎨 Theme & Design
 
@@ -56,10 +56,20 @@ pip install -r requirements.txt
 
 ### 3. Environment Setup
 
+**For Local Development:**
 Create a `.env` file in the project root:
 
 ```env
 OPENROUTER_API_KEY=your_openrouter_api_key_here
+```
+
+**For Streamlit Cloud Deployment:**
+1. Go to your app settings in Streamlit Cloud
+2. Navigate to "Secrets" section
+3. Add your API key:
+
+```toml
+OPENROUTER_API_KEY = "your_actual_openrouter_api_key_here"
 ```
 
 Get your OpenRouter API key from: https://openrouter.ai/
@@ -71,6 +81,25 @@ streamlit run main.py
 ```
 
 The app will be available at: http://localhost:8501
+
+## ☁️ Deployment
+
+### Streamlit Cloud
+
+1. **Push your code to GitHub**
+2. **Connect to Streamlit Cloud**
+3. **Set up Secrets:**
+   - Go to your app settings
+   - Navigate to "Secrets"
+   - Add your OpenRouter API key:
+   ```toml
+   OPENROUTER_API_KEY = "your_actual_api_key_here"
+   ```
+4. **Deploy!**
+
+### Local Development
+
+The app automatically detects whether you're running locally (uses `.env`) or on Streamlit Cloud (uses secrets).
 
 ## 📋 Project Structure
 
@@ -138,23 +167,20 @@ The chatbot can answer questions like:
 - Example questions for quick start
 - Message history
 - Clear chat functionality
+- Dark theme with purple/crimson accents
 
 ### Market Overview Tab
 - Interactive price change charts with custom colors
 - Market cap distribution pie chart
 - Detailed cryptocurrency table
 - Real-time metrics with gold accents
+- Professional dark theme
 
 ### Sidebar
 - Quick market statistics
 - Top 5 cryptocurrencies
 - Example questions buttons
-
-### Dark Theme Elements
-- Custom styled buttons with gradients
-- Professional typography
-- No gray or neon colors
-- Consistent color palette throughout
+- Consistent dark theme
 
 ## 🔧 API Endpoints Used
 
@@ -175,26 +201,23 @@ The application uses the following CoinLore API endpoints:
 
 ## 📊 Dependencies
 
-### Core Dependencies
-- `openai>=1.0.0` - OpenAI SDK for AI integration
+### Core Dependencies:
+- `openai>=1.0.0` - OpenAI SDK for function tools
 - `streamlit>=1.46.0` - Web UI framework
 - `pandas>=2.0.0` - Data manipulation
 - `plotly>=5.0.0` - Interactive charts
 - `streamlit-chat>=0.1.1` - Chat UI components
-
-### Utility Dependencies
-- `requests>=2.32.4` - HTTP requests for API calls
+- `requests>=2.32.4` - HTTP requests
 - `python-dotenv>=1.1.1` - Environment management
 
-## 🎨 Custom Styling
+## 🎨 Custom Theme Features
 
-The app features a completely custom dark theme with:
-
-- **Custom CSS:** Overrides default Streamlit styling
-- **Color Consistency:** All elements use the defined color palette
-- **Typography:** Modern, professional fonts
-- **Interactive Elements:** Custom button styles and hover effects
-- **Chart Styling:** Dark-themed charts with custom colors
+- **Dark Background:** Charcoal black for reduced eye strain
+- **Professional Colors:** Royal purple and crimson red accents
+- **Modern Typography:** Clean, readable fonts
+- **Interactive Elements:** Hover effects and smooth transitions
+- **Chart Styling:** Custom colors for all data visualizations
+- **No Gray/Neon:** Pure professional aesthetic
 
 ## 🤝 Contributing
 
