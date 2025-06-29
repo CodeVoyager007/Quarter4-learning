@@ -162,14 +162,51 @@ if 'agent' not in st.session_state:
                 base_url="https://openrouter.ai/api/v1",
                 api_key=api_key
             )
-            test_response = test_client.chat.completions.create(
-                model="openai/gpt-4o-mini",
-                messages=[{"role": "user", "content": "Hello"}],
-                max_tokens=5
-            )
-            st.write("🔍 Debug: API test successful!")
+            
+            st.write("🔍 Debug: Testing API key...")
+            
+            models_to_try = [
+                "openai/gpt-4o-mini",
+                "openai/gpt-3.5-turbo",
+                "anthropic/claude-3-haiku",
+                "meta-llama/llama-3.1-8b-instruct"
+            ]
+            
+            success = False
+            for model in models_to_try:
+                try:
+                    st.write(f"🔍 Trying model: {model}")
+                    test_response = test_client.chat.completions.create(
+                        model=model,
+                        messages=[{"role": "user", "content": "Hello"}],
+                        max_tokens=5
+                    )
+                    st.write(f"✅ API test successful with model: {model}")
+                    success = True
+                    break
+                except Exception as model_error:
+                    st.write(f"❌ Model {model} failed: {str(model_error)}")
+                    continue
+            
+            if not success:
+                st.error("❌ All models failed. API key might be invalid.")
+                st.stop()
+                
         except Exception as api_error:
             st.error(f"❌ API key test failed: {str(api_error)}")
+            
+            if "401" in str(api_error):
+                st.error("🔍 This is an authentication error. Possible issues:")
+                st.write("1. API key might be invalid or expired")
+                st.write("2. API key might not have proper permissions")
+                st.write("3. OpenRouter service might be down")
+                
+                st.info("💡 Try these steps:")
+                st.write("1. Check your OpenRouter dashboard")
+                st.write("2. Generate a new API key")
+                st.write("3. Make sure you have credits in your account")
+                st.write("4. Try the API key in a simple curl request")
+            
             st.stop()
             
         st.session_state.agent = CryptoAgent()
