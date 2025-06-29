@@ -4,7 +4,6 @@ from typing import Dict, List, Any, Optional
 from openai import OpenAI
 from crypto_tools import CryptoTools
 from dotenv import load_dotenv
-import streamlit as st
 
 # Load environment variables
 load_dotenv()
@@ -13,23 +12,10 @@ class CryptoAgent:
     """AI-powered cryptocurrency agent using OpenAI function tools"""
     
     def __init__(self):
-        api_key = None
-        
-        try:
-            if hasattr(st, 'secrets') and st.secrets.get("OPENROUTER_API_KEY"):
-                api_key = st.secrets["OPENROUTER_API_KEY"]
-            elif os.getenv("OPENROUTER_API_KEY"):
-                api_key = os.getenv("OPENROUTER_API_KEY")
-            
-            if not api_key:
-                raise ValueError("OpenRouter API key not found")
-                
-        except Exception as e:
-            raise Exception(f"Failed to get API key: {str(e)}")
-        
+        # Initialize OpenAI client with OpenRouter
         self.client = OpenAI(
             base_url="https://openrouter.ai/api/v1",
-            api_key=api_key
+            api_key=os.getenv("OPENROUTER_API_KEY")
         )
         
         # Initialize crypto tools

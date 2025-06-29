@@ -56,20 +56,10 @@ pip install -r requirements.txt
 
 ### 3. Environment Setup
 
-**For Local Development:**
 Create a `.env` file in the project root:
 
 ```env
 OPENROUTER_API_KEY=your_openrouter_api_key_here
-```
-
-**For Streamlit Cloud Deployment:**
-1. Go to your app settings in Streamlit Cloud
-2. Navigate to "Secrets" section
-3. Add your API key:
-
-```toml
-OPENROUTER_API_KEY = "your_actual_openrouter_api_key_here"
 ```
 
 Get your OpenRouter API key from: https://openrouter.ai/
@@ -81,25 +71,6 @@ streamlit run main.py
 ```
 
 The app will be available at: http://localhost:8501
-
-## ☁️ Deployment
-
-### Streamlit Cloud
-
-1. **Push your code to GitHub**
-2. **Connect to Streamlit Cloud**
-3. **Set up Secrets:**
-   - Go to your app settings
-   - Navigate to "Secrets"
-   - Add your OpenRouter API key:
-   ```toml
-   OPENROUTER_API_KEY = "your_actual_api_key_here"
-   ```
-4. **Deploy!**
-
-### Local Development
-
-The app automatically detects whether you're running locally (uses `.env`) or on Streamlit Cloud (uses secrets).
 
 ## 📋 Project Structure
 
