@@ -26,11 +26,7 @@ class CryptoAgent:
             
         self.client = OpenAI(
             base_url="https://openrouter.ai/api/v1",
-            api_key=api_key,
-            default_headers={
-                "HTTP-Referer": "https://crypto-agent.streamlit.app",
-                "X-Title": "Crypto Agent AI"
-            }
+            api_key=api_key
         )
         
         # Initialize crypto tools
