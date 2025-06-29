@@ -13,9 +13,20 @@ class CryptoAgent:
     
     def __init__(self):
         # Initialize OpenAI client with OpenRouter
+        api_key = os.getenv("OPENROUTER_API_KEY")
+        if not api_key or api_key == "your_openrouter_api_key_here":
+            try:
+                import streamlit as st
+                api_key = st.secrets["OPENROUTER_API_KEY"]
+            except:
+                raise Exception("OpenRouter API key not found in environment or Streamlit secrets")
+        
+        if not api_key:
+            raise Exception("OpenRouter API key is empty")
+            
         self.client = OpenAI(
             base_url="https://openrouter.ai/api/v1",
-            api_key=os.getenv("OPENROUTER_API_KEY")
+            api_key=api_key
         )
         
         # Initialize crypto tools

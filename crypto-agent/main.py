@@ -127,12 +127,20 @@ if 'agent' not in st.session_state:
         load_dotenv()
         
         api_key = os.getenv("OPENROUTER_API_KEY")
-        if not api_key or api_key == "your_openrouter_api_key_here":
-            st.error("❌ OpenRouter API key not configured!")
-            st.info("💡 Please create a .env file with your OPENROUTER_API_KEY")
-            st.code("OPENROUTER_API_KEY=your_actual_api_key_here")
-            st.stop()
         
+        if not api_key or api_key == "your_openrouter_api_key_here":
+            try:
+                api_key = st.secrets["OPENROUTER_API_KEY"]
+            except:
+                st.error("❌ OpenRouter API key not configured!")
+                st.info("💡 Please add your OPENROUTER_API_KEY to Streamlit Cloud secrets or .env file")
+                st.code("OPENROUTER_API_KEY=your_actual_api_key_here")
+                st.stop()
+        
+        if not api_key:
+            st.error("❌ OpenRouter API key is empty!")
+            st.stop()
+            
         st.session_state.agent = CryptoAgent()
     except Exception as e:
         st.error(f"❌ Error initializing Crypto Agent: {str(e)}")
