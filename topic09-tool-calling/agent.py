@@ -22,7 +22,6 @@ class BlogAgent:
         """Get comprehensive information about any topic from multiple sources."""
         async with httpx.AsyncClient() as client:
             try:
-                # Get Wikipedia summary
                 wiki_response = await client.get(
                     "https://en.wikipedia.org/api/rest_v1/page/summary/" + topic.replace(" ", "_"),
                     headers={'User-Agent': 'BlogGeneratorBot/1.0'},
@@ -30,7 +29,6 @@ class BlogAgent:
                 )
                 wiki_data = wiki_response.json() if wiki_response.status_code == 200 else {}
                 
-                # Get additional topic information from DBpedia
                 dbpedia_response = await client.get(
                     f"https://dbpedia.org/data/{topic.replace(' ', '_')}.json",
                     headers={'User-Agent': 'BlogGeneratorBot/1.0'},
@@ -38,7 +36,6 @@ class BlogAgent:
                 )
                 dbpedia_data = dbpedia_response.json() if dbpedia_response.status_code == 200 else {}
                 
-                # Get related topics with broader context
                 search_response = await client.get(
                     "https://en.wikipedia.org/w/api.php",
                     params={
@@ -55,7 +52,6 @@ class BlogAgent:
                 )
                 search_data = search_response.json() if search_response.status_code == 200 else {}
                 
-                # Process and combine the information
                 topic_info = {
                     "title": wiki_data.get("title", topic),
                     "extract": wiki_data.get("extract", ""),
@@ -69,7 +65,6 @@ class BlogAgent:
                     }
                 }
                 
-                # Add related topics with rich context
                 if search_data.get("query", {}).get("search"):
                     for result in search_data["query"]["search"][:5]:
                         if result["title"].lower() != topic.lower():
@@ -80,7 +75,6 @@ class BlogAgent:
                                 "category": result.get("categorysnippet", "")
                             })
                 
-                # Add DBpedia information if available
                 if dbpedia_data:
                     resource_uri = f"http://dbpedia.org/resource/{topic.replace(' ', '_')}"
                     if resource_uri in dbpedia_data:
@@ -88,7 +82,6 @@ class BlogAgent:
                         topic_info["metadata"]["external_links"].extend(
                             resource_info.get("http://www.w3.org/2000/01/rdf-schema#seeAlso", [])
                         )
-                        # Add any additional properties found in DBpedia
                         
                 return topic_info
                 
@@ -108,7 +101,6 @@ class BlogAgent:
         topic_lower = topic.lower()
         words = set(topic_lower.split())
         
-        # Comprehensive domain detection
         domain_keywords = {
             "technology": {
                 "code", "programming", "software", "api", "web", "app", "database",
@@ -162,14 +154,12 @@ class BlogAgent:
             }
         }
         
-        # Determine the primary domain
         domain_scores = {
             domain: len(words.intersection(keywords))
             for domain, keywords in domain_keywords.items()
         }
         primary_domain = max(domain_scores.items(), key=lambda x: x[1])[0]
         
-        # Content type detection
         content_types = {
             "tutorial": {
                 "how", "guide", "tutorial", "learn", "step", "begin", "start",
@@ -193,13 +183,11 @@ class BlogAgent:
             }
         }
         
-        # Determine content characteristics
         content_type_matches = {
             ctype: bool(words.intersection(keywords))
             for ctype, keywords in content_types.items()
         }
         
-        # Style and format needs
         needs_visuals = primary_domain in {"science", "technology", "medical", "fitness", "arts"}
         needs_data = primary_domain in {"finance", "science", "medical", "technology"}
         needs_examples = primary_domain in {"technology", "fitness", "education", "business"}
@@ -226,95 +214,79 @@ class BlogAgent:
         self.topic = topic
         analysis = self.analyze_topic(topic)
         
-        # Get comprehensive information about the topic
         topic_info = await self.get_topic_info(topic)
-        
-        # Generate outline
         self.outline = generate_outline(topic)
-        
-        # Build the blog content
         blog_content = []
         
-        # Add title and metadata
-        blog_content.append(style_with_emojis(topic_info["title"] or topic, heading_level=1))
-        blog_content.append("\n")
+        # Title
+        blog_content.append(f"# {topic_info['title'] or topic}\n\n")
         
-        # Add a brief overview/description if available
-        if topic_info["description"]:
-            blog_content.append("*" + topic_info["description"] + "*")
-            blog_content.append("\n\n")
+        # Add horizontal rule after title
+        blog_content.append("---\n\n")
         
-        # Add table of contents
-        blog_content.append("## 📑 Table of Contents\n")
-        for i, section in enumerate(self.outline, 1):
-            blog_content.append(f"{i}. [{section}](#{section.lower().replace(' ', '-')})")
-        blog_content.append("\n\n")
-        
-        # Add introduction with main Wikipedia content
+        # Introduction
         if topic_info["extract"]:
-            blog_content.append(style_with_emojis("Introduction", heading_level=2))
-            blog_content.append("\n")
             blog_content.append(topic_info["extract"])
-            blog_content.append("\n\n")
-            
-            # Add image if available
-            if topic_info["thumbnail"]:
-                blog_content.append(f"![{topic}]({topic_info['thumbnail']})")
-                blog_content.append("\n\n")
+            blog_content.append("\n\n---\n\n")
         
-        # Generate each section with enhanced content
+        # Table of Contents
+        blog_content.append("## 📌 Why This Matters?\n\n")
+        
+        # Benefits table
+        benefits = [
+            ["Benefit", "Description"],
+            ["🔁 Reusability", "Write once, use everywhere pattern"],
+            ["🧹 Clean Code", "Better organization and maintainability"],
+            ["🧪 Testability", "Easier to test and validate"],
+            ["🗂️ Structure", "Clear and consistent architecture"]
+        ]
+        blog_content.append(format_table(benefits[0], benefits[1:]))
+        blog_content.append("\n\n---\n\n")
+        
+        # Main content sections
         for section in self.outline[1:]:
-            # Add section heading
-            blog_content.append(style_with_emojis(section, heading_level=2))
-            blog_content.append("\n")
+            blog_content.append(f"## {style_with_emojis(section)}\n\n")
             
-            # Add section content
             content = write_section(section, self.topic, self.domain)
             blog_content.append(content)
+            blog_content.append("\n\n")
             
-            # Add related Wikipedia content if available
-            if topic_info["related"] and section in ["Background", "Main Concepts", "Understanding the Basics"]:
-                for related in topic_info["related"]:
-                    if related.get("extract"):
-                        blog_content.append(f"\n### {related.get('title', 'Related Topic')}\n")
-                        blog_content.append(related["extract"])
-                        blog_content.append("\n")
-            
-            # Add special elements based on section and analysis
+            # Add code examples for implementation sections
             if section == "Implementation Details" and analysis["needs_code"]:
-                blog_content.append("\n### Code Examples\n")
+                blog_content.append("### 🔸 Code Example\n\n")
                 code_examples = self.generate_code_examples()
                 for title, code in code_examples.items():
-                    blog_content.append(f"#### {title}\n")
+                    blog_content.append(f"#### {title}\n\n")
                     blog_content.append(format_code_block(code))
-                    blog_content.append("\n")
+                    blog_content.append("\n\n")
             
+            # Add comparison tables where relevant
             if section == "Detailed Comparison" and analysis["needs_table"]:
-                blog_content.append("\n### Comparison Analysis\n")
+                blog_content.append("### 🔍 Feature Comparison\n\n")
                 table = self.generate_comparison_table()
                 blog_content.append(table)
-                blog_content.append("\n")
+                blog_content.append("\n\n")
                 
-                # Add pros and cons
                 pros_cons = self.generate_pros_cons()
-                blog_content.append("\n### Pros and Cons\n")
+                blog_content.append("### ✅ Pros and Cons\n\n")
                 blog_content.append(pros_cons)
-                blog_content.append("\n")
+                blog_content.append("\n\n")
             
+            # Add summary for conclusion
             if section == "Conclusion":
-                # Add key takeaways
-                blog_content.append("\n### Key Takeaways\n")
+                blog_content.append("### 🎯 Key Takeaways\n\n")
                 takeaways = self.generate_key_takeaways()
                 blog_content.append(takeaways)
-                blog_content.append("\n")
+                blog_content.append("\n\n")
                 
-                # Add inspirational quote
                 quote = self.generate_quote()
-                blog_content.append("\n### Final Thoughts\n")
+                blog_content.append("### 💭 Final Thoughts\n\n")
                 blog_content.append(format_quote(quote))
-                blog_content.append("\n")
+                blog_content.append("\n\n")
+            
+            blog_content.append("---\n\n")
         
-        return "\n".join(blog_content)
+        return "".join(blog_content)
     
     def generate_code_examples(self) -> Dict[str, str]:
         """Generate multiple relevant code examples."""
@@ -414,7 +386,6 @@ class User:
         if "vs" in self.topic.lower():
             parts = self.topic.lower().split(" vs ")
             
-            # Define specific pros and cons for common comparisons
             comparisons = {
                 "python": {
                     "pros": [
@@ -526,7 +497,6 @@ class User:
                     for con in comparisons[part]["cons"]:
                         output.append(f"- {con}")
                 else:
-                    # Generate generic but meaningful pros and cons based on topic analysis
                     pros = [
                         f"Strong {part} community and ecosystem",
                         f"Well-documented {part} features and APIs",
@@ -550,7 +520,6 @@ class User:
                 
                 output.append("\n")
         else:
-            # For non-comparison topics, generate contextual pros and cons
             topic_words = set(self.topic.lower().split())
             
             if any(word in topic_words for word in {"cloud", "aws", "azure", "devops"}):

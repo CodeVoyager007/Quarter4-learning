@@ -6,29 +6,128 @@ from tools.image_generator import ImageGenerator
 # Set page config
 st.set_page_config(
     page_title="SyntaxCrafter: The Blog Smith",
-    page_icon="🎯",
+    page_icon="⚙️",
     layout="wide"
 )
 
 # Custom CSS for better styling
 st.markdown("""
 <style>
+    /* Main app styling */
     .main {
         padding: 2rem;
+        color: #1a1a1a;
     }
-    .stTextInput > div > div > input {
-        padding: 1rem;
+    
+    /* Headers */
+    h1 {
+        font-size: 2.5rem !important;
+        font-weight: 700 !important;
+        margin-bottom: 2rem !important;
     }
+    
+    h2 {
+        font-size: 1.8rem !important;
+        font-weight: 600 !important;
+        margin: 2rem 0 1rem !important;
+        padding-bottom: 0.5rem !important;
+        border-bottom: 2px solid #f0f0f0 !important;
+    }
+    
+    h3 {
+        font-size: 1.4rem !important;
+        font-weight: 600 !important;
+        margin: 1.5rem 0 1rem !important;
+    }
+    
+    /* Blog content */
     .blog-section {
         margin: 2rem 0;
-        padding: 1rem;
-        border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.05);
+        padding: 1.5rem;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
-    .section-image {
-        width: 100%;
-        border-radius: 10px;
-        margin: 1rem 0;
+    
+    /* Tables */
+    table {
+        width: 100% !important;
+        margin: 1.5rem 0 !important;
+        border-collapse: collapse !important;
+    }
+    
+    th {
+        background-color: #f8f9fa !important;
+        padding: 12px !important;
+        text-align: left !important;
+        border: 1px solid #dee2e6 !important;
+        font-weight: 600 !important;
+    }
+    
+    td {
+        padding: 12px !important;
+        border: 1px solid #dee2e6 !important;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #f8f9fa !important;
+    }
+    
+    /* Code blocks */
+    pre {
+        background-color: #f8f9fa !important;
+        padding: 1rem !important;
+        border-radius: 4px !important;
+        margin: 1rem 0 !important;
+        overflow-x: auto !important;
+    }
+    
+    code {
+        font-family: 'Consolas', 'Monaco', monospace !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Blockquotes */
+    blockquote {
+        border-left: 4px solid #007bff !important;
+        margin: 1.5rem 0 !important;
+        padding: 1rem !important;
+        background-color: #f8f9fa !important;
+        font-style: italic !important;
+    }
+    
+    /* Horizontal rules */
+    hr {
+        margin: 2rem 0 !important;
+        border: 0 !important;
+        border-top: 1px solid #dee2e6 !important;
+    }
+    
+    /* Links */
+    a {
+        color: #007bff !important;
+        text-decoration: none !important;
+    }
+    
+    a:hover {
+        text-decoration: underline !important;
+    }
+    
+    /* Images */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+        border-radius: 4px !important;
+        margin: 1rem 0 !important;
+    }
+    
+    /* Lists */
+    ul, ol {
+        margin: 1rem 0 1rem 1.5rem !important;
+    }
+    
+    li {
+        margin-bottom: 0.5rem !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -140,4 +239,4 @@ if st.session_state.blog_content:
         data=markdown_content,
         file_name="blog_post.md",
         mime="text/markdown"
-    ) 
+    )
