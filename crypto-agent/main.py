@@ -126,24 +126,57 @@ if 'agent' not in st.session_state:
     try:
         load_dotenv()
         
+        api_key = None
+        
         api_key = os.getenv("OPENROUTER_API_KEY")
+        st.write("🔍 Debug: Environment variable check:", "Found" if api_key else "Not found")
         
         if not api_key or api_key == "your_openrouter_api_key_here":
             try:
                 api_key = st.secrets["OPENROUTER_API_KEY"]
-            except:
-                st.error("❌ OpenRouter API key not configured!")
-                st.info("💡 Please add your OPENROUTER_API_KEY to Streamlit Cloud secrets or .env file")
-                st.code("OPENROUTER_API_KEY=your_actual_api_key_here")
-                st.stop()
+                st.write("🔍 Debug: Streamlit secrets check: Found")
+            except Exception as e:
+                st.write(f"🔍 Debug: Streamlit secrets error: {str(e)}")
+                try:
+                    api_key = st.secrets.get("OPENROUTER_API_KEY")
+                    st.write("🔍 Debug: Streamlit secrets.get():", "Found" if api_key else "Not found")
+                except:
+                    st.write("🔍 Debug: Streamlit secrets.get() failed")
         
         if not api_key:
-            st.error("❌ OpenRouter API key is empty!")
+            st.error("❌ OpenRouter API key not configured!")
+            st.info("💡 Please add your OPENROUTER_API_KEY to Streamlit Cloud secrets")
+            st.write("🔍 Debug: Available secrets keys:", list(st.secrets.keys()) if hasattr(st.secrets, 'keys') else "No secrets object")
+            st.stop()
+        
+        if api_key == "your_openrouter_api_key_here":
+            st.error("❌ Please replace the placeholder API key with your actual OpenRouter API key!")
+            st.stop()
+        
+        st.write("🔍 Debug: API key length:", len(api_key) if api_key else 0)
+        st.write("🔍 Debug: API key starts with:", api_key[:10] + "..." if api_key and len(api_key) > 10 else api_key)
+        
+        try:
+            from openai import OpenAI
+            test_client = OpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=api_key
+            )
+            test_response = test_client.chat.completions.create(
+                model="openai/gpt-4o-mini",
+                messages=[{"role": "user", "content": "Hello"}],
+                max_tokens=5
+            )
+            st.write("🔍 Debug: API test successful!")
+        except Exception as api_error:
+            st.error(f"❌ API key test failed: {str(api_error)}")
             st.stop()
             
         st.session_state.agent = CryptoAgent()
+        st.success("✅ Crypto Agent initialized successfully!")
     except Exception as e:
         st.error(f"❌ Error initializing Crypto Agent: {str(e)}")
+        st.write("🔍 Debug: Full error details:", str(e))
         st.stop()
 
 # Header
