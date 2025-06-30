@@ -3,10 +3,6 @@ import pandas as pd
 from streamlit_chat import message
 from utils import api, helpers, chatbot
 import asyncio
-import tracemalloc
-
-# Enable tracemalloc to fix the warning
-tracemalloc.start()
 
 # --- Page Config ---
 st.set_page_config(
@@ -21,7 +17,7 @@ helpers.load_css("styles/style.css")
 st.markdown(helpers.get_footer(), unsafe_allow_html=True)
 
 # --- Data Caching ---
-@st.cache_data(ttl=300)
+@st.cache_data(ttl=300, show_spinner=False)
 def load_data():
     """Loads and caches data from the CoinLore API."""
     try:
@@ -43,23 +39,14 @@ def load_data():
         st.error(f"Error loading data: {str(e)}")
         return None, pd.DataFrame(), {}
 
-# Initialize session state
-if 'data_loaded' not in st.session_state:
-    st.session_state.data_loaded = False
-
-# Load data
-if not st.session_state.data_loaded:
-    global_stats, df_coins, api_info = load_data()
-    st.session_state.global_stats = global_stats
-    st.session_state.df_coins = df_coins
-    st.session_state.api_info = api_info
-    st.session_state.data_loaded = True
+# Load data at startup
+global_stats, df_coins, api_info = load_data()
 
 # --- Sidebar ---
 with st.sidebar:
     st.title("🤖 Crypto AI")
-    if st.session_state.global_stats:
-        stats = st.session_state.global_stats[0]
+    if global_stats:
+        stats = global_stats[0]
         st.subheader("📊 Global Market Stats")
         col1, col2 = st.columns(2)
         with col1:
@@ -69,9 +56,9 @@ with st.sidebar:
             st.metric("24h Vol.", f"${float(stats['total_volume']):,.0f}B")
             st.metric("Active Markets", f"{stats['active_markets']:,}")
 
-    if not st.session_state.df_coins.empty:
+    if not df_coins.empty:
         st.subheader("💎 Top 5 Coins")
-        for _, coin in st.session_state.df_coins.head().iterrows():
+        for _, coin in df_coins.head().iterrows():
             price = float(coin['price_usd'])
             change = float(coin['percent_change_24h'])
             delta_color = "green" if change > 0 else "red"
@@ -90,8 +77,8 @@ with st.sidebar:
         "What are the global market statistics?",
         "Tell me about Ethereum"
     ]
-    for i, q in enumerate(example_questions):
-        if st.button(q, key=f"example_q_{i}"):
+    for q in example_questions:
+        if st.button(q, key=f"btn_{q}"):
             if "messages" not in st.session_state:
                 st.session_state.messages = []
             st.session_state.messages.append({"role": "user", "content": q})
@@ -102,9 +89,10 @@ tab1, tab2 = st.tabs(["💰 Dashboard", "💬 AI Chat"])
 
 with tab1:
     st.header("Market Overview")
-    if st.session_state.global_stats and not st.session_state.df_coins.empty:
+    if global_stats and not df_coins.empty:
+        # Data Table with improved styling
         st.markdown("### 📈 Top 20 Cryptocurrencies")
-        df_display = st.session_state.df_coins.head(20).copy()
+        df_display = df_coins.head(20).copy()
         
         # Format the columns
         df_display['price_usd'] = df_display['price_usd'].apply(lambda x: f"${float(x):,.2f}")
@@ -150,7 +138,7 @@ with tab2:
             message(
                 msg["content"],
                 is_user=msg["role"] == "user",
-                key=f"msg_{i}",
+                key=f"msg_{i}_{msg['role']}",
                 avatar_style="adventurer" if msg["role"] == "user" else "bottts",
                 seed=123 if msg["role"] == "user" else 42
             )
