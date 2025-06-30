@@ -1,0 +1,168 @@
+/* styles/style.css */
+
+/* --- General --- */
+body {
+    color: #F8F8F2;
+    background-color: #0D0D0D;
+    font-family: 'Inter', 'Roboto', 'Segoe UI', 'Arial', sans-serif;
+}
+
+/* --- Main content --- */
+.main .block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+
+/* --- Sidebar --- */
+section[data-testid="stSidebar"] {
+    background-color: #000;
+    border-right: 1px solid #005F73;
+}
+
+/* --- Coin Cards --- */
+.coin-card {
+    background-color: #1a1a1a;
+    border: 1px solid #005F73;
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 95, 115, 0.2);
+}
+
+.coin-symbol {
+    font-weight: bold;
+    color: #D4AF37;
+}
+
+.coin-price {
+    color: #F8F8F2;
+}
+
+.coin-change {
+    font-weight: 500;
+}
+
+/* --- Chat Messages --- */
+.stChatMessage {
+    background-color: #1a1a1a;
+    border: 1px solid #005F73;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 95, 115, 0.2);
+}
+
+.stChatMessage.user {
+    background-color: #6C3FB6;
+    border-color: #6C3FB6;
+}
+
+/* --- Chat Input --- */
+.stChatInputContainer {
+    position: fixed;
+    bottom: 5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    background-color: #1a1a1a;
+    border: 1px solid #005F73;
+    border-radius: 8px;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+/* --- Metrics --- */
+[data-testid="stMetricValue"] {
+    font-size: 1.25rem !important;
+    font-weight: bold;
+    color: #D4AF37;
+}
+
+[data-testid="stMetricDelta"] {
+    font-size: 0.875rem;
+}
+
+/* --- Data Table --- */
+[data-testid="stDataFrame"] {
+    background-color: #1a1a1a;
+    border: 1px solid #005F73;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+/* --- Buttons --- */
+.stButton > button {
+    background-color: #6C3FB6;
+    color: #F8F8F2;
+    border: 2px solid #6C3FB6;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.stButton > button:hover {
+    background-color: #F8F8F2;
+    color: #6C3FB6;
+    border-color: #F8F8F2;
+}
+
+/* --- Tabs --- */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 2rem;
+    background-color: transparent;
+}
+
+.stTabs [data-baseweb="tab"] {
+    color: #F8F8F2 !important;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+}
+
+.stTabs [aria-selected="true"] {
+    background-color: #6C3FB6 !important;
+    color: #F8F8F2 !important;
+}
+
+/* --- Footer --- */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #0D0D0D;
+    color: #F8F8F2;
+    text-align: center;
+    padding: 1rem;
+    border-top: 1px solid #005F73;
+}
+
+.footer-heart {
+    color: #B3001B;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #005F73;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6C3FB6;
+} 
