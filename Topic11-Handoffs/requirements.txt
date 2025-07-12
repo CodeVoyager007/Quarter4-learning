@@ -1,5 +1,3 @@
-openai
-openai-agents
 streamlit
 python-dotenv
-google-generativeai 
+google-generativeai
